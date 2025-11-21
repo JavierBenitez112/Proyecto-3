@@ -1,0 +1,41 @@
+---
+# Lista de estados
+q_states:
+  q_list:
+    - 'lista de estados de la MT'
+    # ... más estados
+  initial: '0'
+  final: '5'
+
+# Alfabetos de la MT
+alphabet:
+  - 'lista de símbolos del alfabeto'
+  # ... más símbolos
+
+tape_alphabet:
+  - 'lista de símbolos del alfabeto de la cinta'
+  - 'recuerde que incluye los símbolos de alphabet también'
+  # para definir el símbolo de blank, usaremos null o None, que en yaml se expresa con una entrada vacía, como se presenta a continuación:
+  - null
+
+# Función de transición
+delta:
+  # Es una lista en donde cada elemento de la lista es un objeto que guarda la información sobre los parámetros a utilizar y el resultado al aplicar la función
+  - params:
+      initial_state: 'estado en el que inicia'
+      # Valor guardado en caché
+      mem_cache_value: 'Puede ser blank o contener algo'
+      tape_input: 'el input leído sobre la cinta'
+    output:
+      final_state: 'estado en el que termina'
+      mem_cache_value: 'Puede ser blank o contener algo'
+      tape_output: 'el resultado sobre la cinta'
+      tape_displacement: 'desplazamiento sobre la cinta, puede ser L, R o S'
+
+# Cadenas a ser simuladas por su MT luego de parsearla y generarla
+simulation_strings:
+  - aab#aab
+  - ab#ab
+  - abbababa#aba
+
+
