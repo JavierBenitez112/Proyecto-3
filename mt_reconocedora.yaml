@@ -1,0 +1,42 @@
+q_states:
+  q_list: [q0, q1, q2, q_accept, q_reject]
+  initial: q0
+  final: q_accept
+
+alphabet: [a, b]
+tape_alphabet: [a, b, X]   
+
+delta:
+  # Marcar una 'a' → buscar 'b'
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: a}
+    output: {final_state: q1, mem_cache_value: null, tape_output: X, tape_displacement: R}
+
+  # Saltar 'a' marcadas/ no marcadas mientras buscamos la b
+  - params: {initial_state: q1, mem_cache_value: null, tape_input: a}
+    output: {final_state: q1, mem_cache_value: null, tape_output: a, tape_displacement: R}
+  - params: {initial_state: q1, mem_cache_value: null, tape_input: X}
+    output: {final_state: q1, mem_cache_value: null, tape_output: X, tape_displacement: R}
+
+  # Encontramos b → marcarla
+  - params: {initial_state: q1, mem_cache_value: null, tape_input: b}
+    output: {final_state: q2, mem_cache_value: null, tape_output: X, tape_displacement: L}
+
+  # Regresar a la izquierda hasta blank
+  - params: {initial_state: q2, mem_cache_value: null, tape_input: a}
+    output: {final_state: q2, mem_cache_value: null, tape_output: a, tape_displacement: L}
+  - params: {initial_state: q2, mem_cache_value: null, tape_input: X}
+    output: {final_state: q2, mem_cache_value: null, tape_output: X, tape_displacement: L}
+  - params: {initial_state: q2, mem_cache_value: null, tape_input: null}
+    output: {final_state: q0, mem_cache_value: null, tape_output: null, tape_displacement: R}
+
+  # Si ya no quedan a's ni b's: ACEPTAR
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: X}
+    output: {final_state: q0, mem_cache_value: null, tape_output: X, tape_displacement: R}
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: null}
+    output: {final_state: q_accept, mem_cache_value: null, tape_output: null, tape_displacement: S}
+
+simulation_strings:
+  - aaabbb      # aceptada
+  - aaaabbbb    # aceptada
+  - aaabbbba    # rechazada
+  - aaaaabb     # rechazada

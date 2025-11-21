@@ -1,0 +1,25 @@
+q_states:
+  q_list: [q0, q_accept]
+  initial: q0
+  final: q_accept
+
+alphabet: [a, b]
+tape_alphabet: [a, b]
+
+delta:
+  # q0: recorrer la cinta y cambiar cada símbolo
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: a}
+    output: {final_state: q0, mem_cache_value: null, tape_output: b, tape_displacement: R}
+
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: b}
+    output: {final_state: q0, mem_cache_value: null, tape_output: a, tape_displacement: R}
+
+  # Al llegar al blank → aceptar
+  - params: {initial_state: q0, mem_cache_value: null, tape_input: null}
+    output: {final_state: q_accept, mem_cache_value: null, tape_output: null, tape_displacement: S}
+
+simulation_strings:
+  - aaaaa
+  - aaaab
+  - abbab
+  - babab
